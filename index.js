@@ -10,6 +10,7 @@ const app = express()
 const clientUrl = process.env.CLIENT_URL
 const adminId = process.env.TELEGRAM_ADMIN_ID
 const managerIds = process.env.TELEGRAM_MANAGERS_ID
+const sendForManagers = process.env.TELEGRAM_SEND_FOR_MANAGERS
 
 app.use(express.json())
 app.use(cors())
@@ -46,9 +47,11 @@ app.post('/order', async (req, res) => {
   } finally {
     await bot.sendMessage(adminId, `Заказ от пользователя: ${userName}.\nУслуга: ${order}. ID пользователя:  ${userId}`)
 
-    managerIds.split(',').map(async (managerId) => {
-      // await bot.sendMessage(managerId, `Заказ от пользователя: ${userName}.\nУслуга: ${order}.`)
-    })
+    if (sendForManagers) {
+      managerIds.split(',').map(async (managerId) => {
+        await bot.sendMessage(managerId, `Заказ от пользователя: ${userName}.\nУслуга: ${order}.`)
+      })
+    }
   }
 })
 
