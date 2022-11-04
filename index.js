@@ -12,6 +12,7 @@ const adminId = process.env.TELEGRAM_ADMIN_ID
 const managerIds = process.env.TELEGRAM_MANAGERS_ID
 const sendForManagers = process.env.TELEGRAM_SEND_FOR_MANAGERS
 
+app.use(express.static('static'));
 app.use(express.json())
 app.use(cors())
 
