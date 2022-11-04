@@ -32,6 +32,7 @@ bot.on('message', async (msg) => {
 
 app.post('/order', async (req, res) => {
   const { queryId, order, userName, userId } = req.body
+  console.log(JSON.stringify(req.body));
   try {
     // await bot.answerWebAppQuery(queryId, {
     //   id: queryId,
