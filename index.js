@@ -47,7 +47,7 @@ app.post('/order', async (req, res) => {
   } finally {
     await bot.sendMessage(adminId, `Заказ от пользователя: ${userName}.\nУслуга: ${order}. ID пользователя:  ${userId}`)
 
-    if (sendForManagers) {
+    if (sendForManagers !== 'false') {
       managerIds.split(',').map(async (managerId) => {
         await bot.sendMessage(managerId, `Заказ от пользователя: ${userName}.\nУслуга: ${order}.`)
       })
