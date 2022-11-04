@@ -43,7 +43,7 @@ app.post('/order', async (req, res) => {
     // })
     return res.status(200).send({ data: "okey" })
   } catch (e) {
-    return res.status(500).send({ data: e })
+    return res.status(500).send({ data: "not okey" })
   } finally {
     await bot.sendMessage(adminId, `Заказ от пользователя: ${userName}.\nУслуга: ${order}. ID пользователя:  ${userId}`)
 
