@@ -5,6 +5,8 @@ import cors from 'cors'
 
 dotenv.config()
 
+console.log(0);
+
 const bot = new TelegramBot(process.env.TELEGRAM_TOKEN, { polling: true })
 const app = express()
 const clientUrl = process.env.CLIENT_URL
@@ -14,6 +16,8 @@ const sendForManagers = process.env.TELEGRAM_SEND_FOR_MANAGERS
 
 app.use(express.json())
 app.use(cors())
+
+console.log(1);
 
 bot.on('message', async (msg) => {
   const chatId = msg.chat.id
@@ -29,6 +33,8 @@ bot.on('message', async (msg) => {
       },
     })
 })
+
+console.log(2);
 
 app.post('/order', async (req, res) => {
   const { queryId, order, userName, userId } = req.body
