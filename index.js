@@ -5,8 +5,6 @@ import cors from 'cors'
 
 dotenv.config()
 
-console.log(0);
-
 const bot = new TelegramBot(process.env.TELEGRAM_TOKEN, { polling: true })
 const app = express()
 const clientUrl = process.env.CLIENT_URL
@@ -16,8 +14,6 @@ const sendForManagers = process.env.TELEGRAM_SEND_FOR_MANAGERS
 
 app.use(express.json())
 app.use(cors())
-
-console.log(1);
 
 bot.on('message', async (msg) => {
   const chatId = msg.chat.id
@@ -34,25 +30,23 @@ bot.on('message', async (msg) => {
     })
 })
 
-console.log(2);
-
 app.post('/order', async (req, res) => {
   const { queryId, order, userName, userId } = req.body
-  console.log(JSON.stringify(req.body));
   try {
-    // await bot.answerWebAppQuery(queryId, {
-    //   id: queryId,
-    //   type: 'article',
-    //   title: 'Услуга заказана',
-    //   input_message_content: {
-    //     message_text: ` Вы успешно заказали услугу: ${order}. Мы скоро свяжемся с Вами!`,
-    //   },
-    // })
+    await bot.answerWebAppQuery(queryId, {
+      id: queryId,
+      type: 'article',
+      title: 'Услуга заказана',
+      input_message_content: {
+        message_text: ` Вы успешно заказали услугу: ${order}. Мы скоро свяжемся с Вами!`,
+      },
+    })
+
     return res.status(200).send({ data: "okey" })
   } catch (e) {
     return res.status(500).send({ data: "not okey" })
   } finally {
-    await bot.sendMessage(adminId, `Заказ от пользователя: ${userName}.\nУслуга: ${order}. ID пользователя:  ${userId}`)
+    await bot.sendMessage(adminId, `Заказ от пользователя: @${userName}.\nУслуга: ${order}. ID пользователя:  ${userId}`)
 
     if (sendForManagers !== 'false') {
       managerIds.split(',').map(async (managerId) => {
