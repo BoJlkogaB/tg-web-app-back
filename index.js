@@ -33,15 +33,15 @@ bot.on('message', async (msg) => {
 app.post('/order', async (req, res) => {
   const { queryId, order, userName, userId } = req.body
   try {
-    await bot.answerWebAppQuery(queryId, {
-      id: queryId,
-      type: 'article',
-      title: 'Услуга заказана',
-      input_message_content: {
-        message_text: ` Вы успешно заказали услугу: ${order}. Мы скоро свяжемся с Вами!`,
-      },
-    })
-    return res.status(200).json({})
+    // await bot.answerWebAppQuery(queryId, {
+    //   id: queryId,
+    //   type: 'article',
+    //   title: 'Услуга заказана',
+    //   input_message_content: {
+    //     message_text: ` Вы успешно заказали услугу: ${order}. Мы скоро свяжемся с Вами!`,
+    //   },
+    // })
+    return res.status(200).json({name: "error"})
   } catch (e) {
     return res.status(500).message({name: "error"});
   } finally {
