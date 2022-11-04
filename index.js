@@ -44,12 +44,10 @@ app.post('/order', async (req, res) => {
   } catch (e) {
     return res.status(500).json(e)
   } finally {
-    await bot.sendMessage(adminId,
-      `Заказ от пользователя: ${userName}.\nУслуга: ${order}. ID пользователя:  ${userId}`)
+    await bot.sendMessage(adminId, `Заказ от пользователя: ${userName}.\nУслуга: ${order}. ID пользователя:  ${userId}`)
 
     managerIds.split(',').map(async (managerId) => {
-      await bot.sendMessage(managerId,
-        `Заказ от пользователя: ${userName}.\nУслуга: ${order}.`)
+      // await bot.sendMessage(managerId, `Заказ от пользователя: ${userName}.\nУслуга: ${order}.`)
     })
   }
 })
