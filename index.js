@@ -14,7 +14,7 @@ const sendForManagers = process.env.TELEGRAM_SEND_FOR_MANAGERS
 
 app.use(express.static('static'));
 app.use(express.json())
-app.use(cors())
+app.use(cors({origin: true, credentials: true}))
 
 bot.on('message', async (msg) => {
   const chatId = msg.chat.id
