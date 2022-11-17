@@ -15,11 +15,7 @@ const app = express()
 
 app.use(express.static('static'));
 app.use(express.json())
-app.use(cors({
-  origin: true,
-  methods: 'GET,PUT,POST,DELETE',
-  credentials: true,
-}));
+app.use(cors());
 
 bot.on('message', async (msg) => {
   const chatId = msg.chat.id
