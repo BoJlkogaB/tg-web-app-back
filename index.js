@@ -13,23 +13,25 @@ const sendForManagers = process.env.TELEGRAM_SEND_FOR_MANAGERS
 const bot = new TelegramBot(process.env.TELEGRAM_TOKEN, { polling: true })
 const app = express()
 
-app.use(express.static('static'));
+app.use(express.static('static'))
 app.use(express.json())
-app.use(cors());
+app.use(cors())
 
 bot.on('message', async (msg) => {
   const chatId = msg.chat.id
 
-  await bot.sendMessage(chatId,
-    '*Давайте начнем*\n\nПожалуйста, нажмите на кнопку ниже, чтобы заказать разработку',
-    {
-      parse_mode: 'Markdown',
-      reply_markup: {
-        inline_keyboard: [
-          [{ text: 'Сделать заказ', web_app: { url: clientUrl } }],
-        ],
-      },
-    })
+  if (msg.text === '/start') {
+    await bot.sendMessage(chatId,
+      '*Давайте начнем*\n\nПожалуйста, нажмите на кнопку ниже, чтобы заказать разработку',
+      {
+        parse_mode: 'Markdown',
+        reply_markup: {
+          inline_keyboard: [
+            [{ text: 'Сделать заказ', web_app: { url: clientUrl } }],
+          ],
+        },
+      })
+  }
 })
 
 app.post('/order', async (req, res) => {
@@ -44,15 +46,17 @@ app.post('/order', async (req, res) => {
       },
     })
 
-    return res.status(200).send({ data: "okey" })
+    return res.status(200).send({ data: 'okey' })
   } catch (e) {
-    return res.status(500).send({ data: "not okey" })
+    return res.status(500).send({ data: 'not okey' })
   } finally {
-    await bot.sendMessage(adminId, `Заказ от пользователя: https://t.me/${userName}.\nУслуга: ${order}. ID пользователя:  ${userId}`)
+    await bot.sendMessage(adminId,
+      `Заказ от пользователя: https://t.me/${userName}.\nУслуга: ${order}. ID пользователя:  ${userId}`)
 
     if (sendForManagers !== 'false') {
       managerIds.split(',').map(async (managerId) => {
-        await bot.sendMessage(managerId, `Заказ от пользователя: https://t.me/${userName}.\nУслуга: ${order}.`)
+        await bot.sendMessage(managerId,
+          `Заказ от пользователя: https://t.me/${userName}.\nУслуга: ${order}.`)
       })
     }
   }
